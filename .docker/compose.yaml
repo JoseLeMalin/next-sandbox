@@ -3,6 +3,8 @@ version: '3.8'
 # https://medium.com/@jewelski/quickly-set-up-a-local-postgres-database-using-docker-5098052a4726
 # https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/#Why-should-you-containerize-Postgres
 # https://github.com/docker/awesome-compose/tree/master/postgresql-pgadmin
+# docker compose -f .docker/compose.yaml up
+# docker compose -f .docker/compose.yaml down
 services:
 #  youcode-app:
 #    build:
@@ -16,7 +18,6 @@ services:
 #    ports:
 #      - "3000:3000"
 #    restart: unless-stopped
-
   postgres:
     container_name: youcode-postgres
     image: postgres:15.5-alpine3.18
