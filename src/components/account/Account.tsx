@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { useSession } from "next-auth/react";
 import { PropsWithChildren } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -7,23 +7,24 @@ import { Button } from "../ui/button";
 import { ButtonLogout } from "../Button-Logout";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
 
 type Account = PropsWithChildren;
-export default function Account({ children }: Account) {
+export default async function Account({ children }: Account) {
   // const mutation = useMutation({
   //   mutationFn: async () => {
   //     signOut();
   //   },
   // });
-  const { data: session, status } = useSession();
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
+  // const { data: session, status } = useSession();
+  const session = await getServerSession()
+  // if (session.status === "loading") {
+  //   return <p>Loading...</p>;
+  // }
   if (!session) {
     redirect("/");
     // return <p>Error...</p>;
   }
-
   const handleClickSettings = () => {
     redirect("/settings");
   };
@@ -43,7 +44,7 @@ export default function Account({ children }: Account) {
             <Link href={`/settings`}>Settings</Link>
             <Link href={`/admin`}>Admin</Link>
 
-            <ButtonLogout session={session} status={status} />
+            <ButtonLogout />
           </div>
         </CardContent>
       </Card>

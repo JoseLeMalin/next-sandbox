@@ -12,13 +12,15 @@ import { getRequiredAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 type CoursesList = PropsWithChildren;
 export async function CoursesList({ children }: CoursesList) {
-  const session = await getRequiredAuthSession();
-  console.log("Log dans le CoursesList: ", session);
-  console.log("Log dans prisma: ", prisma);
-
+  const session = await getServerSession()
+  if (!session) {
+    redirect("/");
+    // return <p>Error...</p>;
+  }
   const courses = await prisma.course.findMany({
     where: {
       creatorId: session.user.id,

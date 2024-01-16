@@ -22,7 +22,6 @@ export default function DropDownLogin({ children }: DropDownLogin) {
   if (status === "loading") {
     return <p>Loading...</p>;
   }
-  console.log("session: ", session);
 
   return (
     <>
