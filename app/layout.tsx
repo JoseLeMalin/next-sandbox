@@ -9,6 +9,7 @@ import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { Providers } from "./Providers";
 import "./globals.css";
+import { ButtonPrevPage } from "@/components/Button-Prev-Page";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -31,6 +32,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <Providers>
             <div className="relative flex min-h-screen flex-col">
               <Header />
+              <div className="flex-1">
+                <ButtonPrevPage />
+              </div>
               <div className="flex-1">{children}</div>
               <Footer />
             </div>

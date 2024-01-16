@@ -44,6 +44,7 @@ model User {
   ownedCourses   CourseOnUser[]
   createdCourses Course[]
   lessons        LessonOnUser[]
+  createdAt      DateTime?
 }
 
 model Course {

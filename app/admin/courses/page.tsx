@@ -6,11 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import { getRequiredAuthSession } from "@/lib/auth";
 
 export default async function Courses() {
-    
-
+  // const session = await getRequiredAuthSession();
 
   return (
     <>

@@ -16,7 +16,8 @@ import { getServerSession } from "next-auth";
 
 type CoursesList = PropsWithChildren;
 export async function CoursesList({ children }: CoursesList) {
-  const session = await getServerSession()
+  // const session = await getServerSession()
+  const session = await getRequiredAuthSession();
   if (!session) {
     redirect("/");
     // return <p>Error...</p>;
@@ -47,9 +48,11 @@ export async function CoursesList({ children }: CoursesList) {
         <TableBody>
           {courses.map((course) => (
             <TableRow key={course.id}>
-              <TableCell className="font-medium">{course.image}</TableCell>
               <TableCell className="font-medium">
-                <Link href={`/admin/courses/:courseId`}>{course.name}</Link>
+                <img src={course.image} width="80" height="80" />
+              </TableCell>
+              <TableCell className="font-medium">
+                <Link href={`/admin/courses/${course.id}`}>{course.name}</Link>
               </TableCell>
             </TableRow>
           ))}

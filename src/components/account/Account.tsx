@@ -17,7 +17,7 @@ export default async function Account({ children }: Account) {
   //   },
   // });
   // const { data: session, status } = useSession();
-  const session = await getServerSession()
+  const session = await getServerSession();
   // if (session.status === "loading") {
   //   return <p>Loading...</p>;
   // }

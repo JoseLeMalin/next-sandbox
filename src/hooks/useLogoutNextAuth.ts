@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 
 export const useLogoutNextAuth = () => {
- return useMutation({
+  return useMutation({
     mutationFn: async () => {
       signOut();
     },
   });
- //  mutation.mutate();
+  //  mutation.mutate();
 };

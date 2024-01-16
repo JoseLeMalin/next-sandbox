@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,14 +13,11 @@ import { signIn } from "next-auth/react";
 import { useSession, getSession, signOut } from "next-auth/react";
 import AlertDialogConfirmChoice from "./AlertConfirmeChoice";
 import Link from "next/link";
+import { getAuthSession } from "@/lib/auth";
 
 type DropDownLogin = PropsWithChildren;
-export default function DropDownLogin({ children }: DropDownLogin) {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
+export default async function DropDownLogin({ children }: DropDownLogin) {
+  const session = await getAuthSession();
 
   return (
     <>
