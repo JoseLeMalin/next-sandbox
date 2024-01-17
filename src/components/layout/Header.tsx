@@ -4,11 +4,10 @@ import { SiteConfig } from "@/lib/site-config";
 import image from "@/assets/images/William_Bouguereau_-_Dante_and_Virgile_-_Google_Art_Project_2.jpg";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { Avatar } from "../ui/avatar";
-import { DropdownMenu } from "../ui/dropdown-menu";
 import DropDownLogin from "../DropDownLogin";
 import { getAuthSession } from "@/lib/auth";
+import { ButtonExploreCourses } from "../ButtonExploreCourses";
+import { ButtonUserCourses } from "../ButtonUserCourses";
 
 export async function Header() {
   const session = await getAuthSession();
@@ -24,6 +23,8 @@ export async function Header() {
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
+            <ButtonExploreCourses />
+            <ButtonUserCourses />
             <DropDownLogin />
             <ThemeToggle />
           </nav>

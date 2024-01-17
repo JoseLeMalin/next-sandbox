@@ -2,15 +2,23 @@ import { prisma } from "@/lib/prisma";
 
 export const getLessons = async ({
   courseId,
+  userId,
   userPage,
 }: {
   courseId: string;
+  userId: string;
   userPage: number;
 }) => {
-  const courses = await prisma.lesson.findMany({
+  const course = await prisma.course.findUnique({
     where: {
-      courseId,
+      id: courseId,
+      creatorId: userId,
+    },
+    select: {
+      id: true,
+      name: true,
+      lessons: true,
     },
   });
-  return courses;
+  return course;
 };

@@ -18,7 +18,7 @@ import {
 import { getRequiredAuthSession } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCourse } from "./course.query";
+import { getAdminCourse } from "./course.query";
 import { Button, buttonVariants } from "@/components/ui/button";
 
 export default async function CourseItem({
@@ -36,15 +36,16 @@ export default async function CourseItem({
   const session = await getRequiredAuthSession();
   const page = Number(searchParams.page ?? 1);
   console.log("page: ", page);
-  const course = await getCourse({
+  const course = await getAdminCourse({
     courseId: params.courseId,
     userId: session.user.id,
     userPage: page,
   });
   // const course =[];
-
+  
   if (!course) {
-    redirect("/admin/courses");
+    console.log("No courses found. Redirected to root");
+    redirect("/");
     // return <p>Error...</p>;
   }
   return (
@@ -70,7 +71,11 @@ export default async function CourseItem({
                 {course?.users?.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">
-                      <img src={user.image} width="80" height="80" />
+                      {
+                        user?.image ? 
+                        <img src={user.image} width="80" height="80" />
+                        : <div></div>
+                      }
                     </TableCell>
                     <TableCell className="font-medium">{user.email}</TableCell>
                     <TableCell className="font-medium">
