@@ -10,7 +10,7 @@ export const ButtonExploreCourses = () => {
   };
   return (
     <Button variant="outline" size="sm" onClick={handleOnClick}>
-      <ReaderIcon />
+      Explore courses
     </Button>
   );
 };

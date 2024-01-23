@@ -20,6 +20,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAdminCourse } from "./course.query";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { CourseDetails } from "@/components/courses/CourseDetails";
 
 export default async function CourseItem({
   params,
@@ -44,6 +45,11 @@ export default async function CourseItem({
   // const course =[];
   
   if (!course) {
+    console.log("No courses found. Redirected to root");
+    redirect("/");
+    // return <p>Error...</p>;
+  }
+  if (!course.lessons?.length) {
     console.log("No courses found. Redirected to root");
     redirect("/");
     // return <p>Error...</p>;
@@ -118,6 +124,8 @@ export default async function CourseItem({
             </div>
           </CardContent>
         </Card>
+        
+      <CourseDetails lessons={course.lessons}/>
       </div>
     </>
   );

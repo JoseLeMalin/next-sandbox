@@ -45,7 +45,7 @@ export default async function Courses({
           <CardTitle>Online Courses page</CardTitle>
         </CardHeader>
         <CardContent>
-          <CardDescription>{`Ici c'est la page des courses`}</CardDescription>
+          <CardDescription>{`A list of the courses you own`}</CardDescription>
           <Table>
             <TableCaption>A list of your recent courses.</TableCaption>
             <TableHeader>

@@ -1,4 +1,3 @@
-import { CoursesList } from "@/components/admin/CoursesList";
 import {
   Card,
   CardContent,
@@ -15,31 +14,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { prisma } from "@/lib/prisma";
-import { getAuthSession } from "@/lib/auth";
-import Link from "next/link";
-import { redirect } from "next/navigation";
 import { getCourses } from "./courses.query";
+import { getCourseLessons } from "./lessons.query";
+import { CourseDetails } from "@/components/courses/CourseDetails";
 
 export default async function Courses() {
 
   const courses = await getCourses();
+  const lessons = await getCourseLessons("clrgu4au50011fi9hoon6gukl");
   return (
     <>
+    <div  className="flex flex-col gap-4 lg:flex-row">
+
+
       <Card>
         <CardHeader>
           <CardTitle>Online Courses page</CardTitle>
         </CardHeader>
         <CardContent>
-          <CardDescription>{`Ici c'est la page des courses`}</CardDescription>
+          <CardDescription>{`All available courses`}</CardDescription>
           <Table>
-            <TableCaption>A list of your recent courses.</TableCaption>
+            <TableCaption>Available courses</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[70px]">Image</TableHead>
-                <TableHead >Name</TableHead>
-                <TableHead >Presentation</TableHead>
-                <TableHead >Created By</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Presentation</TableHead>
+                <TableHead>Created By</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -63,6 +64,8 @@ export default async function Courses() {
           </Table>
         </CardContent>
       </Card>
+      {/* <CourseDetails lessons={lessons}/> */}
+      </div>
     </>
   );
 }

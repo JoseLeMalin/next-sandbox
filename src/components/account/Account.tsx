@@ -41,7 +41,7 @@ export default async function Account({ children }: Account) {
         </CardHeader>
         <CardContent>
           <div>
-            <Link href={`/settings`}>Settings</Link>
+            <Link href={`/account/settings`}>Settings</Link>
             <Link href={`/admin`}>Admin</Link>
 
             <ButtonLogout />

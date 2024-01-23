@@ -16,7 +16,7 @@ export const ButtonUserCourses = () => {
   };
   return (
     <Button variant="outline" size="sm" onClick={handleOnClick}>
-      <ReaderIcon />
+      My courses
     </Button>
   );
 };
