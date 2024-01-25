@@ -20,14 +20,11 @@ type CourseDetails = {
     state: LessonState;
     createdAt: string;
     courseId: string;
-}[]
+  }[];
 } & PropsWithChildren;
 
 // { children }: DropDownLogin
 export const CourseDetails = ({ lessons, children }: CourseDetails) => {
-  const handleOnClick = () => {
-    console.log("Dans le btn lesson");
-  };
   return (
     <>
       {lessons.length ? (
@@ -39,10 +36,10 @@ export const CourseDetails = ({ lessons, children }: CourseDetails) => {
             <CardDescription>
               {lessons.map((lessonItem) => {
                 return (
-                  <div key={lessonItem.id}>
-                    <Label>{lessonItem.name}</Label>
-                    <Textarea>{lessonItem.name}</Textarea>
-                  </div>
+                  <>
+                    <Label> {lessonItem.name}</Label>
+                    <Textarea defaultValue={lessonItem.content}></Textarea>
+                  </>
                 );
               })}
             </CardDescription>
