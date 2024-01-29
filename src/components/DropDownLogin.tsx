@@ -14,6 +14,7 @@ import { useSession, getSession, signOut } from "next-auth/react";
 import AlertDialogConfirmChoice from "./AlertConfirmeChoice";
 import Link from "next/link";
 import { getAuthSession } from "@/lib/auth";
+import { LoginButton } from "./LoginButton";
 
 type DropDownLogin = PropsWithChildren;
 export default async function DropDownLogin({ children }: DropDownLogin) {
@@ -32,9 +33,7 @@ export default async function DropDownLogin({ children }: DropDownLogin) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Button onClick={() => signIn("github")}>
-                  Sign in with Github
-                </Button>
+                <LoginButton />
                 <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>

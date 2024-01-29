@@ -22,6 +22,8 @@ export const updateUser = async (data: FormData) => {
     name,
   });
 
+  if (!name) return
+  if (!imageUrl) return
   if (!safeData.success) {
     const searchParams = new URLSearchParams();
     searchParams.set(
