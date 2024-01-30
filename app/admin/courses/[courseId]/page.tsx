@@ -125,7 +125,7 @@ export default async function CourseItem({
           </CardContent>
         </Card>
         
-      <CourseDetails lessons={course.lessons}/>
+      {/* <CourseDetails lessons={course.lessons}/> */}
       </div>
     </>
   );

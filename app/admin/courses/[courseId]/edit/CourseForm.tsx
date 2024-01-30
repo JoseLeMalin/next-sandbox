@@ -25,7 +25,9 @@ const {name,image , presentation, id} = {...defaultValue.defaultValue};
   return (
     <form
       className="flex flex-col"
-      onSubmit={async (values) => await updateCourse(values, id!)  }
+      onSubmit={async (e) => {
+        e.preventDefault();
+   await updateCourse(new FormData(e.target as HTMLFormElement), id!)}  }
     >
       <Label>Course Name</Label>
       <Input defaultValue={name} name="image" id="image" />
