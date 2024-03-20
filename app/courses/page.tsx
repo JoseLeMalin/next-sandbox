@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/table";
 import { getCourses } from "./courses.query";
 import { getCourseLessons } from "./lessons.query";
-import { CourseDetails } from "@/components/courses/CourseDetails";
+import Image from "next/image";
 
 export default async function Courses() {
 
@@ -47,7 +47,7 @@ export default async function Courses() {
               {courses?.map((course) => (
                 <TableRow key={course.id}>
                   <TableCell className="font-medium">
-                    <img src={course.image} width="80" height="80" />
+                    <Image src={course.image} width="80" height="80" alt="Course image"/>
                   </TableCell>
                   <TableCell className="font-medium">
                       {course.name}

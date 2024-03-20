@@ -20,6 +20,12 @@ import { ButtonNewLesson } from "@/components/ButtonNewLesson";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { getRequiredAuthSession } from "@/lib/auth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default async function CourseLessonsPage({
   params,
@@ -58,17 +64,25 @@ export default async function CourseLessonsPage({
           <TableBody>
             {course?.lessons.map((lesson) => (
               <TableRow key={lesson.name}>
-              
                 <TableCell className="font-medium">{lesson.content}</TableCell>
                 <TableCell className="font-medium">
                   <Link href={`/admin/courses/${lesson.id}`}>
-                    {lesson.state}
+                    {lesson.name}
                   </Link>
                 </TableCell>
                 <TableCell className="font-medium">
-                  <Button variant="outline" size="icon">
-                    <ChevronRightIcon className="h-4 w-4" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon">
+                        <ChevronRightIcon className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <Link href={`/admin/lessons/${lesson.id}/edit`}>Edit</Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}

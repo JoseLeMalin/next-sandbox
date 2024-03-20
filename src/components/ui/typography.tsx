@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 // src/components/ui/Typography.tsx
 import { VariantProps, cva } from "class-variance-authority";
 import type {

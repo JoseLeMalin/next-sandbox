@@ -1,4 +1,3 @@
-import { CoursesList } from "@/components/admin/CoursesList";
 import {
   Card,
   CardContent,
@@ -18,42 +17,36 @@ import {
 import { getRequiredAuthSession } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getAdminCourse } from "./course.query";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { getAdminLesson } from "./[lessonId]/lesson.query";
 import Image from "next/image";
+
 
 export default async function CourseItem({
   params,
   searchParams,
 }: {
   params: {
-    courseId: string;
+    lessonId: string;
   };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  console.log("params.courseId: ", params.courseId);
-  console.log("searchParams: ", searchParams);
-
   const session = await getRequiredAuthSession();
   const page = Number(searchParams.page ?? 1);
   console.log("page: ", page);
-  const course = await getAdminCourse({
-    courseId: params.courseId,
+  const lesson = await getAdminLesson({
+    lessonId: params.lessonId,
     userId: session.user.id,
     userPage: page,
   });
   // const course =[];
-  
-  if (!course) {
+
+  if (!lesson) {
     console.log("No courses found. Redirected to root");
     redirect("/");
     // return <p>Error...</p>;
   }
-  if (!course.lessons?.length) {
-    console.log("No courses found. Redirected to root");
-    redirect("/");
-    // return <p>Error...</p>;
-  }
+
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -74,14 +67,14 @@ export default async function CourseItem({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {course?.users?.map((user) => (
+                {lesson?.users?.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">
-                      {
-                        user?.image ? 
-                        <Image src={user.image} width="80" height="80" alt="User avatar" />
-                        : <div></div>
-                      }
+                      {user?.image ? (
+                        <Image src={user.image} width="80" height="80" alt=""/>
+                      ) : (
+                        <div></div>
+                      )}
                     </TableCell>
                     <TableCell className="font-medium">{user.email}</TableCell>
                     <TableCell className="font-medium">
@@ -99,12 +92,12 @@ export default async function CourseItem({
             <CardTitle>Course Info</CardTitle>
           </CardHeader>
           <CardContent>
-            <CardDescription>{course.name}</CardDescription>
-            <div>{course._count?.users}</div>
-            <div>{course._count?.lessons}</div>
+            <CardDescription>{lesson.name}</CardDescription>
+            <div>{lesson._count?.users}</div>
+            <div>{lesson._count?.users}</div>
             <div>
               <Link
-                href={`/admin/courses/${course.id}/edit`}
+                href={`/admin/courses/${lesson.id}/edit`}
                 className={buttonVariants({
                   variant: "outline",
                 })}
@@ -114,7 +107,7 @@ export default async function CourseItem({
             </div>
             <div>
               <Link
-                href={`/admin/courses/${course.id}/lessons`}
+                href={`/admin/courses/${lesson.id}/lessons`}
                 className={buttonVariants({
                   variant: "outline",
                 })}
@@ -124,8 +117,8 @@ export default async function CourseItem({
             </div>
           </CardContent>
         </Card>
-        
-      {/* <CourseDetails lessons={course.lessons}/> */}
+
+        {/* <CourseDetails lessons={course.lessons}/> */}
       </div>
     </>
   );

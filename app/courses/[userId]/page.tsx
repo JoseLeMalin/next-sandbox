@@ -20,6 +20,7 @@ import { getAuthSession } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCourses } from "../courses.query";
+import Image from "next/image";
 
 
 export default async function Courses({
@@ -60,7 +61,7 @@ export default async function Courses({
               {courses?.map((course) => (
                 <TableRow key={course.id}>
                   <TableCell className="font-medium">
-                    <img src={course.image} width="80" height="80" />
+                    <Image src={course.image} width="80" height="80" alt=""/>
                   </TableCell>
                   <TableCell className="font-medium">
                       {course.name}

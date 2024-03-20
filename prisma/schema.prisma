@@ -43,7 +43,8 @@ model User {
   accounts       Account[]
   createdCourses Course[]
   ownedCourses   CourseOnUser[]
-  lessons        LessonOnUser[]
+  createdLessons Lesson[]
+  ownedLessons   LessonOnUser[]
   sessions       Session[]
 }
 
@@ -67,7 +68,9 @@ model Lesson {
   state     LessonState    @default(HIDDEN)
   createdAt DateTime       @default(now())
   courseId  String
+  creatorId String         
   course    Course         @relation(fields: [courseId], references: [id])
+  creator   User           @relation(fields: [creatorId], references: [id])
   users     LessonOnUser[]
 }
 

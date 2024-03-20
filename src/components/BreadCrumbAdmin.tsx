@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import { Fragment, PropsWithChildren } from "react";
 import { Home, ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useIsClient } from "@/hooks/useIsClient";
@@ -21,8 +21,8 @@ export default function BreadCrumbAdmin({ children }: PropsWithChildren) {
           <ol role="list" className="flex list-none items-center">
             {pathname.map((pathnameItem, index) => {
               return (
-                <>
-                  <li key={`${pathnameItem}-${v4()}`}>
+                <Fragment  key={`${pathnameItem}-${index}`}>
+                  <li>
                     <Link
                       href={`/${pathname.slice(0, index + 1).join("/")}`}
                       className="block text-xs text-muted-foreground transition hover:text-foreground"
@@ -31,9 +31,13 @@ export default function BreadCrumbAdmin({ children }: PropsWithChildren) {
                     </Link>
                   </li>
                   {index !== pathname.length - 1 && (
-                    <ChevronRight className="text-muted-foreground" size={16} />
+                    <ChevronRight
+                      key={`${pathnameItem}-${index}-chevron`}
+                      className="text-muted-foreground"
+                      size={16}
+                    />
                   )}
-                </>
+                </Fragment>
               );
             })}
           </ol>
