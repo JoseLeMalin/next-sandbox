@@ -34,47 +34,41 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts       Account[]
-  sessions       Session[]
-  ownedCourses   CourseOnUser[]
-  createdCourses Course[]
-  lessons        LessonOnUser[]
+  id             String         @id @default(cuid())
+  name           String?
+  email          String?        @unique
+  emailVerified  DateTime?
+  image          String?
   createdAt      DateTime?
+  accounts       Account[]
+  createdCourses Course[]
+  ownedCourses   CourseOnUser[]
+  lessons        LessonOnUser[]
+  sessions       Session[]
 }
 
 model Course {
-  id           String   @id @default(cuid())
+  id           String         @id @default(cuid())
   name         String
-  presentation String // markdown
+  presentation String
   image        String
-  createdAt    DateTime @default(now())
+  createdAt    DateTime       @default(now())
   creatorId    String
-  creator User           @relation(fields: [creatorId], references: [id])
-  lessons Lesson[]
-  users   CourseOnUser[]
+  creator      User           @relation(fields: [creatorId], references: [id])
+  users        CourseOnUser[]
+  lessons      Lesson[]
 }
 
 model Lesson {
-  id      String      @id @default(cuid())
-  name    String
-  rank    String // A string that represents the order of the lesson
-  content String // markdown
-  state   LessonState @default(HIDDEN)
+  id        String         @id @default(cuid())
+  name      String
+  rank      String
+  content   String
+  state     LessonState    @default(HIDDEN)
   createdAt DateTime       @default(now())
-  course    Course         @relation(fields: [courseId], references: [id])
   courseId  String
+  course    Course         @relation(fields: [courseId], references: [id])
   users     LessonOnUser[]
-}
-
-enum LessonState {
-  HIDDEN
-  PUBLISHED
-  PUBLIC
 }
 
 model LessonOnUser {
@@ -83,15 +77,10 @@ model LessonOnUser {
   lessonId  String
   progress  Progress @default(NOT_STARTED)
   createdAt DateTime @default(now())
-  user   User   @relation(fields: [userId], references: [id])
-  lesson Lesson @relation(fields: [lessonId], references: [id])
-  @@unique([userId, lessonId])
-}
+  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
-enum Progress {
-  NOT_STARTED
-  IN_PROGRESS
-  COMPLETED
+  @@unique([userId, lessonId])
 }
 
 model CourseOnUser {
@@ -100,16 +89,29 @@ model CourseOnUser {
   courseId   String
   createdAt  DateTime  @default(now())
   canceledAt DateTime?
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
+  course     Course    @relation(fields: [courseId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+
   @@unique([userId, courseId])
 }
-
 
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
+
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+enum LessonState {
+  HIDDEN
+  PUBLISHED
+  PUBLIC
+}
+
+enum Progress {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
 }
