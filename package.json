@@ -1,6 +1,7 @@
 {
   "name": "youcode",
   "version": "0.1.0",
+  "description": "NextJs sandbox to get hands on features",
   "private": true,
   "scripts": {
     "dev": "next dev",
