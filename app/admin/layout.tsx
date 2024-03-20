@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: PropsWithChildren) {
   return (
     <>
-      <BreadCrumbAdmin />
+      <div className="m-auto flex max-w-3xl items-center gap-2 px-4 py-1">
+        <BreadCrumbAdmin />
+      </div>
       {children}
     </>
   );
