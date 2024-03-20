@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import AdminLayout from "./layout";
+
 export default function Admin() {
   return (
     <div>

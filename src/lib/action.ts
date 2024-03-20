@@ -1,38 +1,7 @@
 import { DEFAULT_SERVER_ERROR, createSafeActionClient } from "next-safe-action";
 import { getAuthSession } from "./auth";
 
-// export const action = createSafeActionClient();
-
 export class ServerError extends Error {}
-
-// export const authenticatedAction = createSafeActionClient({
-//   handleReturnedServerError: (error) => {
-//     if (error instanceof ServerError) {
-//       return {
-//         serverError: error.message,
-//       };
-//     }
-//
-//     return {
-//       serverError: 'An unexpected error occurred',
-//     };
-//   },
-//   middleware: async () => {
-//     const session = await getAuthSession();
-//
-//     const user = session?.user;
-//     const userId = user?.id;
-//
-//     if (!session) {
-//       throw new ServerError('You must be logged in to perform this action');
-//     }
-//
-//     return {
-//       userId,
-//       user,
-//     };
-//   },
-// });
 
 const handleReturnedServerError = (e: Error) => {
   // If the error is an instance of `ServerError`, unmask the message.
@@ -58,18 +27,19 @@ export const action = createSafeActionClient({
 });
 
 export const authAction = createSafeActionClient({
-  // You can provide a middleware function. In this case, context is used
-  // for (fake) auth purposes.
   middleware: async () => {
     const session = await getAuthSession();
-
-    const user = session?.user;
-    const userId = user?.id;
-
     if (!session) {
       throw new ServerError("You must be logged in to perform this action");
     }
 
+    const user = session.user;
+    const userId = user.id;
+    if (!userId) {
+      throw new Error(
+        "You are not connected - Please login before trying any action"
+      );
+    }
     return {
       userId,
       user,

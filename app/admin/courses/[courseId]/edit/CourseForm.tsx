@@ -3,7 +3,10 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { updateCourse } from "@/actions/courses/actions";
+import {
+  createCourseNextAction,
+  updateCourseNextAction,
+} from "@/actions/courses/actions";
 import { z } from "zod";
 
 export const CourseFormSchema = z.object({
@@ -20,19 +23,42 @@ export type CourseFormProps = {
   };
 };
 
-export const CourseForm = async (defaultValue : CourseFormProps) => {
-const {name,image , presentation, id} = {...defaultValue.defaultValue};
+export const CourseForm = async (defaultValue: CourseFormProps) => {
+  const { name, image, presentation, id } = { ...defaultValue.defaultValue };
   return (
     <form
       className="flex flex-col"
       onSubmit={async (e) => {
         e.preventDefault();
-   await updateCourse(new FormData(e.target as HTMLFormElement), id!)}  }
+
+        const formData = new FormData(e.target as HTMLFormElement);
+        const name = formData.get("name") as string;
+        const image = formData.get("image") as string;
+        const presentation = formData.get("presentation") as string;
+
+        if (!id)
+          return await createCourseNextAction({
+            data: {
+              name,
+              image,
+              presentation,
+            },
+          });
+
+        await updateCourseNextAction({
+          data: {
+            name,
+            image,
+            presentation,
+          },
+          courseId: id,
+        });
+      }}
     >
       <Label>Course Name</Label>
-      <Input defaultValue={name} name="image" id="image" />
+      <Input defaultValue={name} name="name" id="name" />
       <Label>Course Image</Label>
-      <Input defaultValue={image} name="name" id="name" />
+      <Input defaultValue={image} name="image" id="image" />
       <Label>Course Presentation</Label>
       <Input
         defaultValue={presentation}
