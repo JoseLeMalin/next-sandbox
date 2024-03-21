@@ -21,7 +21,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { getAdminLesson } from "./[lessonId]/lesson.query";
 import Image from "next/image";
 
-
 export default async function CourseItem({
   params,
   searchParams,
@@ -39,7 +38,6 @@ export default async function CourseItem({
     userId: session.user.id,
     userPage: page,
   });
-  // const course =[];
 
   if (!lesson) {
     console.log("No courses found. Redirected to root");
@@ -71,7 +69,13 @@ export default async function CourseItem({
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">
                       {user?.image ? (
-                        <Image src={user.image} width="80" height="80" alt=""/>
+                        <Image
+                          src={user.image}
+                          width="80"
+                          height="80"
+                          alt=""
+                          priority={false}
+                        />
                       ) : (
                         <div></div>
                       )}

@@ -1,7 +1,7 @@
 // src/lib/site-config.ts
 
 export const SiteConfig = {
-  title: 'YouCode',
+  title: "YouCode",
   description:
-    'Learn to code faster with an online learning experience like no other.',
+    "Learn to code faster with an online learning experience like no other.",
 } as const;

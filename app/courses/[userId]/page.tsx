@@ -22,7 +22,6 @@ import { redirect } from "next/navigation";
 import { getCourses } from "../courses.query";
 import Image from "next/image";
 
-
 export default async function Courses({
   params,
   searchParams,
@@ -37,7 +36,7 @@ export default async function Courses({
     redirect("/");
   }
   console.log("params.userId: ", params.userId);
-  
+
   const courses = await getCourses(params.userId);
   return (
     <>
@@ -52,25 +51,29 @@ export default async function Courses({
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[70px]">Image</TableHead>
-                <TableHead >Name</TableHead>
-                <TableHead >Presentation</TableHead>
-                <TableHead >Created By</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Presentation</TableHead>
+                <TableHead>Created By</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {courses?.map((course) => (
                 <TableRow key={course.id}>
                   <TableCell className="font-medium">
-                    <Image src={course.image} width="80" height="80" alt=""/>
+                    <Image
+                      src={course.image}
+                      width="80"
+                      height="80"
+                      alt=""
+                      priority={false}
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium">{course.name}</TableCell>
+                  <TableCell className="font-medium">
+                    {course.presentation}
                   </TableCell>
                   <TableCell className="font-medium">
-                      {course.name}
-                  </TableCell>
-                  <TableCell className="font-medium">
-                      {course.presentation}
-                  </TableCell>
-                  <TableCell className="font-medium">
-                      {course.creator.name}
+                    {course.creator.name}
                   </TableCell>
                 </TableRow>
               ))}

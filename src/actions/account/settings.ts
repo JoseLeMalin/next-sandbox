@@ -7,14 +7,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const FormSchema = z.object({
-    name: z.string().min(3).max(40),
-    imageUrl: z.string().url(),
-  });
+  name: z.string().min(3).max(40),
+  imageUrl: z.string().url(),
+});
 
 export const updateUser = async (data: FormData) => {
-    
-    const userSession = await getRequiredAuthSession();
-  console.log("data: ", data);
+  const userSession = await getRequiredAuthSession();
   const imageUrl = data.get("imageUrl");
   const name = data.get("name");
   const safeData = FormSchema.safeParse({
@@ -22,17 +20,17 @@ export const updateUser = async (data: FormData) => {
     name,
   });
 
-  if (!name) return
-  if (!imageUrl) return
+  if (!name) return;
+  if (!imageUrl) return;
   if (!safeData.success) {
     const searchParams = new URLSearchParams();
     searchParams.set(
-      'error',
-      'Invalid data. Image must be an URL and name must be between 3 and 40 characters.'
+      "error",
+      "Invalid data. Image must be an URL and name must be between 3 and 40 characters.",
     );
     redirect(`/account/settings?${searchParams.toString()}`);
   }
-  
+
   const updateUser = await prisma.user.update({
     where: {
       id: userSession.user.id,
@@ -42,7 +40,6 @@ export const updateUser = async (data: FormData) => {
       image: imageUrl.toString(),
     },
   });
-  console.log(updateUser);
   revalidatePath("/account/settings");
   redirect("/account/settings");
 };
@@ -53,7 +50,6 @@ export const deletePost = async (id: string) => {
       id,
     },
   });
-  console.log(updateUser);
   revalidatePath("/");
   redirect("/");
 };

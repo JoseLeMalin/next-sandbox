@@ -32,7 +32,7 @@ export default async function CourseItem({
       image: true,
       name: true,
       presentation: true,
-      lessons: true
+      lessons: true,
     },
   });
   if (!course) {

@@ -35,7 +35,7 @@ export const updateLessonNextAction = authAction(
       },
       data: props.data,
     });
-  }
+  },
 );
 
 export const createLessonNextAction = authAction(
@@ -44,7 +44,7 @@ export const createLessonNextAction = authAction(
     return await prisma.lesson.create({
       data: { ...props.data, id: v4(), creatorId: userId },
     });
-  }
+  },
 );
 /*
 export const updateLesson = async (data: FormData, courseId: string) => {

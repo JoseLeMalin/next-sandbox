@@ -20,12 +20,16 @@ export const action = createSafeActionClient({
   handleServerErrorLog: (e) => {
     console.error(
       "CUSTOM ERROR LOG FUNCTION, server error message:",
-      e.message
+      e.message,
     );
   },
   handleReturnedServerError,
 });
 
+/**
+ * Function that checks if the user is authenticated in order
+ * to perform actions
+ */
 export const authAction = createSafeActionClient({
   middleware: async () => {
     const session = await getAuthSession();
@@ -37,7 +41,7 @@ export const authAction = createSafeActionClient({
     const userId = user.id;
     if (!userId) {
       throw new Error(
-        "You are not connected - Please login before trying any action"
+        "You are not connected - Please login before trying any action",
       );
     }
     return {

@@ -38,7 +38,6 @@ export const getAdminLesson = async ({
       },
     },
   });
-  console.log("lesson: ", lesson);
 
   const users = lesson?.users.map((user) => {
     return {
@@ -88,7 +87,6 @@ export const getAdminLessons = async ({
       },
     },
   });
-  console.log("userLessons: ", userLessons);
 
   return userLessons;
 };

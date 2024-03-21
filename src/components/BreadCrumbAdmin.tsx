@@ -21,7 +21,7 @@ export default function BreadCrumbAdmin({ children }: PropsWithChildren) {
           <ol role="list" className="flex list-none items-center">
             {pathname.map((pathnameItem, index) => {
               return (
-                <Fragment  key={`${pathnameItem}-${index}`}>
+                <Fragment key={`${pathnameItem}-${index}`}>
                   <li>
                     <Link
                       href={`/${pathname.slice(0, index + 1).join("/")}`}

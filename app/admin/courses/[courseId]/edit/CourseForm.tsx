@@ -25,6 +25,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useState } from "react";
+import { LessonState } from "@prisma/client";
 
 export const CourseFormSchema = z.object({
   name: z.string().min(3).max(40).optional(),
@@ -33,14 +34,14 @@ export const CourseFormSchema = z.object({
   lessons: z.array(
     z.object({
       id: z.string(),
-      name: z.string().optional(),
-      rank: z.string().optional(),
-      content: z.string().optional(),
-      state: z.string().optional(),
+      name: z.string(),
+      rank: z.string(),
+      content: z.string(),
+      state: z.nativeEnum(LessonState),
       createdAt: z.date(),
-      courseId: z.string().optional(),
-      creatorId: z.string().optional(),
-    })
+      courseId: z.string(),
+      creatorId: z.string(),
+    }),
   ),
 });
 
@@ -58,12 +59,12 @@ export const CourseForm = async (defaultValue: CourseFormProps) => {
   };
 
   // const [items] = useState(["1", "2", "3"]);
-  const [items, setItems] = useState(lessons);
+  const [items, setItems] = useState(lessons ? lessons : []);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
   return (
     <>
@@ -77,23 +78,23 @@ export const CourseForm = async (defaultValue: CourseFormProps) => {
           const image = formData.get("image") as string;
           const presentation = formData.get("presentation") as string;
 
-          // if (!id)
-          //   return await createCourseNextAction({
-          //     data: {
-          //       name,
-          //       image,
-          //       presentation,
-          //     },
-          //   });
-          //
-          // await updateCourseNextAction({
-          //   data: {
-          //     name,
-          //     image,
-          //     presentation,
-          //   },
-          //   courseId: id,
-          // });
+          if (!id)
+            return await createCourseNextAction({
+              data: {
+                name,
+                image,
+                presentation,
+              },
+            });
+
+          await updateCourseNextAction({
+            data: {
+              name,
+              image,
+              presentation,
+            },
+            courseId: id,
+          });
         }}
       >
         <Label>Course Name</Label>
@@ -112,9 +113,7 @@ export const CourseForm = async (defaultValue: CourseFormProps) => {
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={items} strategy={verticalListSortingStrategy}>
-            {items?.map((item) => (
-              <SortableItem key={item.id} id={item.id} lesson={item} />
-            ))}
+            {items?.map((item) => <SortableItem key={item.id} lesson={item} />)}
           </SortableContext>
         </DndContext>
         <div style={{ paddingTop: "250px" }}>
@@ -127,16 +126,11 @@ export const CourseForm = async (defaultValue: CourseFormProps) => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      console.log("Before the error ?");
-
       setItems((items) => {
         const oldIndex = items?.findIndex((item) => item.id === active.id);
-        const newIndex = items?.findIndex((item) => item.id === over.id);
+        const newIndex = items?.findIndex((item) => item.id === over?.id);
 
         const newItems = arrayMove(items, oldIndex, newIndex);
-
-        console.log({ newIndex, newItems });
-
         const newUpItem = newItems[newIndex - 1]?.rank;
         const newDownItem = newItems[newIndex + 1]?.rank;
 

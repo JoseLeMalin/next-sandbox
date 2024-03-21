@@ -58,8 +58,7 @@ export default async function CourseLessonsPage({
     },
   });
   const courses = await getCourses();
-  // console.log("courses SHE: ", courses);
-  
+
   if (!lesson) notFound();
 
   return (

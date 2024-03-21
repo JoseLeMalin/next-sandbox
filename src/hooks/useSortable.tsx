@@ -15,7 +15,7 @@ type SortableItem = {
 } & PropsWithChildren;
 
 export function SortableItem(props: SortableItem) {
-  const { attributes, listeners, setNodeRef, transform, transition,  } =
+  const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: props.id });
 
   const style = {

@@ -20,20 +20,11 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     session({ session, user, token, trigger }) {
-      // console.log("in the callbacks session", session);
-      // console.log("in the callbacks user", user);
-      // console.log("in the callbacks token", token);
-      // console.log("in the callbacks trigger", trigger);
       session.user.id = token.sub;
       session.user.image = token.picture;
       return session;
     },
     async signIn({ user, account, profile, email, credentials }) {
-      // console.log("In the signin user: ", user);
-      // console.log("In the signin account: ", account);
-      // console.log("In the signin profile: ", profile);
-      // console.log("In the signin credentials: ", credentials);
-
       const isAllowedToSignIn = true;
       if (isAllowedToSignIn) {
         return true;

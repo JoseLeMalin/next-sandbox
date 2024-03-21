@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 
-
 export const getCourses = async (userId?: string) => {
   const courses = await prisma?.course.findMany({
     where: userId

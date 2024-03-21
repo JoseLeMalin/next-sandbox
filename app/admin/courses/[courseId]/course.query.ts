@@ -24,7 +24,7 @@ export const getAdminCourse = async ({
         take: 5,
         // skip: Math.max(0, userPage * 5),
         select: {
-          //  canceledAt: true,
+          // canceledAt: true,
           id: true,
           user: {
             select: {
@@ -34,19 +34,6 @@ export const getAdminCourse = async ({
             },
           },
         },
-        //   take: 5,
-        //   skip: Math.max(0, userPage * 5),
-        //   select: {
-        //     canceledAt: true,
-        //     id: true,
-        //     user: {
-        //       select: {
-        //         email: true,
-        //         id: true,
-        //         image: true,
-        //       },
-        //     },
-        //   },
       },
       _count: {
         select: {
@@ -56,11 +43,9 @@ export const getAdminCourse = async ({
       },
     },
   });
-  console.log("course: ", courses);
 
   const users = courses?.users.map((user) => {
     return {
-      // canceled: user.canceledAt ? true : false,
       ...user.user,
     };
   });

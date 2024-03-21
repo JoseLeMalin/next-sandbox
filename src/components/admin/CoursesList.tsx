@@ -41,7 +41,13 @@ export async function CoursesList({ children }: CoursesList) {
           {courses.map((course) => (
             <TableRow key={course.id}>
               <TableCell className="font-medium">
-                <Image src={course.image} width="80" height="80" alt=""/>
+                <Image
+                  src={course.image}
+                  width="80"
+                  height="80"
+                  alt=""
+                  priority={false}
+                />
               </TableCell>
               <TableCell className="font-medium">
                 <Link href={`/admin/courses/${course.id}`}>{course.name}</Link>

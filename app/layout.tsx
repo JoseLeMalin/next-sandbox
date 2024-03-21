@@ -26,7 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <body
           className={cn(
             "h-full bg-background font-sans antialiased",
-            fontSans.variable
+            fontSans.variable,
           )}
         >
           <Providers>

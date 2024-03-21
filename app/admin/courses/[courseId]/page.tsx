@@ -1,4 +1,3 @@
-import { CoursesList } from "@/components/admin/CoursesList";
 import {
   Card,
   CardContent,
@@ -21,6 +20,16 @@ import { redirect } from "next/navigation";
 import { getAdminCourse } from "./course.query";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { prisma } from "@/lib/prisma";
+import { ChevronRightIcon } from "lucide-react";
+import { removeUserFromCourse } from "@/actions/courses/actions";
+import { revalidatePath } from "next/cache";
 
 export default async function CourseItem({
   params,
@@ -31,29 +40,51 @@ export default async function CourseItem({
   };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  console.log("params.courseId: ", params.courseId);
-  console.log("searchParams: ", searchParams);
-
   const session = await getRequiredAuthSession();
+  const userId = session.user.id;
   const page = Number(searchParams.page ?? 1);
-  console.log("page: ", page);
   const course = await getAdminCourse({
     courseId: params.courseId,
-    userId: session.user.id,
+    userId,
     userPage: page,
   });
   // const course =[];
-  
+
   if (!course) {
     console.log("No courses found. Redirected to root");
-    redirect("/");
+    redirect("/admin");
     // return <p>Error...</p>;
   }
   if (!course.lessons?.length) {
     console.log("No courses found. Redirected to root");
-    redirect("/");
+    redirect("/admin");
     // return <p>Error...</p>;
   }
+
+  const handleRemoveUser = async () => {
+    "use server";
+    if (!course?.id) return;
+    const courseOnUser = await prisma.courseOnUser.findFirst({
+      where: {
+        userId,
+        course: {
+          id: course.id,
+          creatorId: userId,
+        },
+      },
+    });
+
+    if (!courseOnUser) return;
+
+    await removeUserFromCourse({
+      courseId: course.id,
+      userId,
+    });
+
+    revalidatePath(`/admin/courses/${course.id}`);
+    redirect(`/admin/courses/${course.id}`);
+  };
+
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -77,17 +108,43 @@ export default async function CourseItem({
                 {course?.users?.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">
-                      {
-                        user?.image ? 
-                        <Image src={user.image} width="80" height="80" alt="User avatar" />
-                        : <div></div>
-                      }
+                      {user?.image ? (
+                        <Image
+                          src={user.image}
+                          width="80"
+                          height="80"
+                          alt="User avatar"
+                        />
+                      ) : (
+                        <div></div>
+                      )}
                     </TableCell>
                     <TableCell className="font-medium">{user.email}</TableCell>
                     <TableCell className="font-medium">
                       <Link href={`/admin/courses/${user.id}`}>Aktive</Link>
                     </TableCell>
-                    <TableCell className="font-medium">Btn actions</TableCell>
+                    <TableCell className="font-medium">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="icon">
+                            <ChevronRightIcon className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem>
+                            <form>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                formAction={handleRemoveUser}
+                              >
+                                Remove user
+                              </Button>
+                            </form>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -124,8 +181,8 @@ export default async function CourseItem({
             </div>
           </CardContent>
         </Card>
-        
-      {/* <CourseDetails lessons={course.lessons}/> */}
+
+        {/* <CourseDetails lessons={course.lessons}/> */}
       </div>
     </>
   );

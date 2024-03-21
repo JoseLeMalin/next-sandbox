@@ -17,6 +17,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { prismaEnumLessonState } from "@/types/lessons.types";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const EditorComp = dynamic(() => import("@/components/EditorComponent"), {
+  ssr: false,
+});
 
 export const LessonFormSchema = z.object({
   name: z.string().min(3).max(40).optional(),
@@ -28,7 +34,7 @@ export const LessonFormSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string(),
-    })
+    }),
   ),
 });
 
@@ -45,6 +51,9 @@ export const LessonForm = async (defaultValue: LessonFormProps) => {
     ...defaultValue.defaultValue,
   };
 
+  const markdown = `
+  Hello **world**!
+  `;
   return (
     <form
       className="flex flex-col"
@@ -113,7 +122,15 @@ export const LessonForm = async (defaultValue: LessonFormProps) => {
           })}
         </SelectContent>
       </Select>
-      <Button style={{ paddingTop: "250px" }} type="submit">Submit Changes</Button>
+
+      <div>
+        <Suspense fallback={null}>
+          <EditorComp markdown={markdown} />
+        </Suspense>
+      </div>
+      <div style={{ paddingTop: "250px" }}>
+        <Button type="submit">Submit Changes</Button>
+      </div>
     </form>
   );
 };

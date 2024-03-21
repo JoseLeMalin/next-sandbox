@@ -19,6 +19,12 @@ const CourseActionEditProps = z.object({
 const CourseActionCreateProps = z.object({
   data: CourseFormSchema,
 });
+
+const CourseActionRemoveUserProps = z.object({
+  courseId: z.string(),
+  userId: z.string(),
+});
+
 /**
  *
  */
@@ -32,7 +38,7 @@ export const updateCourseNextAction = authAction(
       },
       data: props.data,
     });
-  }
+  },
 );
 
 export const createCourseNextAction = authAction(
@@ -41,33 +47,20 @@ export const createCourseNextAction = authAction(
     return await prisma.course.create({
       data: { ...props.data, id: v4(), creatorId: userId },
     });
-  }
+  },
 );
-/*
-export const updateCourse = async (data: FormData, courseId: string) => {
-  // async (data: FormData, courseId: string) => {
-  console.log("in the updatecourse");
 
-  const image = data.get("image");
-  const name = data.get("name");
-  const presentation = data.get("presentation");
-  const state = data.get("state");
-  console.log("image: ", image);
-  console.log("name: ", name);
-  console.log("presentation: ", presentation);
-
-  const resultUpdate = await prisma.course.update({
-    where: {
-      id: courseId,
-    },
-    data: {
-      image: image?.toString(),
-      name: name?.toString(),
-      presentation: presentation?.toString(),
-      // state: state?.toString(),
-    },
-  });
-  return resultUpdate;
-  // };
-};
-*/
+export const removeUserFromCourse = authAction(
+  CourseActionRemoveUserProps,
+  async ({ courseId, userId }) => {
+    // Delete entry from many to many relation
+    return await prisma.courseOnUser.delete({
+      where: {
+        userId_courseId: {
+          courseId,
+          userId,
+        },
+      },
+    });
+  },
+);

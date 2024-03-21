@@ -37,7 +37,7 @@ export const LessonFormSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string(),
-    })
+    }),
   ),
 });
 
