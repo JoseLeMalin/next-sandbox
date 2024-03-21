@@ -113,7 +113,7 @@ export const LessonForm = async (defaultValue: LessonFormProps) => {
           })}
         </SelectContent>
       </Select>
-      <Button type="submit">Submit Changes</Button>
+      <Button style={{ paddingTop: "250px" }} type="submit">Submit Changes</Button>
     </form>
   );
 };
