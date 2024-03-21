@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { notFound } from "next/navigation";
 
 export default async function CourseLessonsPage({
   params,
@@ -43,11 +44,13 @@ export default async function CourseLessonsPage({
     userId: session.user.id,
     userPage: page,
   });
-
+  if (!course) {
+    notFound();
+  }
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Members</CardTitle>
+        <CardTitle>Course {course?.name}</CardTitle>
       </CardHeader>
       <CardContent>
         <CardDescription>Lessons</CardDescription>
@@ -79,7 +82,9 @@ export default async function CourseLessonsPage({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuItem>
-                        <Link href={`/admin/lessons/${lesson.id}/edit`}>Edit</Link>
+                        <Link href={`/admin/lessons/${lesson.id}/edit`}>
+                          Edit
+                        </Link>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

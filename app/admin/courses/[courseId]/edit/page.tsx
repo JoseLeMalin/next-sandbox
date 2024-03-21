@@ -40,7 +40,7 @@ export default async function CourseItem({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Course Info</CardTitle>
+        <CardTitle>Course {course.name}</CardTitle>
       </CardHeader>
       <CardContent>
         <CardDescription>Update {course.name}</CardDescription>

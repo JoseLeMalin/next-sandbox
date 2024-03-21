@@ -59,7 +59,7 @@ export default async function CourseItem({
       <div className="flex flex-col gap-4 lg:flex-row">
         <Card>
           <CardHeader>
-            <CardTitle>Members</CardTitle>
+            <CardTitle>Course {course.name}</CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription>{`Ici c'est les members`}</CardDescription>

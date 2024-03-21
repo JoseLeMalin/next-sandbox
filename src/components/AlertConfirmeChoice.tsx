@@ -1,8 +1,6 @@
 "use client";
 import { PropsWithChildren } from "react";
-import { signOut } from "next-auth/react";
 import { Loader } from "@/components/ui/loader";
-import { useMutation } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
 import {
   AlertDialog,
