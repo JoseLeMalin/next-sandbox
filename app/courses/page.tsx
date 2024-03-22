@@ -23,6 +23,7 @@ import { getRequiredAuthSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import Link from "next/link";
 
 const FormSchema = z.object({
   courseId: z.string(),
@@ -32,38 +33,7 @@ export default async function Courses() {
   const courses = await getCourses();
   const joinCourse = async (courseId: string) => {
     "use server";
-    // const {
-    //   user: { id: userId },
-    // } = await getRequiredAuthSession();
-    // const courseId = data.get("id");
-    // const safeData = FormSchema.safeParse({
-    //   courseId,
-    // });
-    // if (!safeData.success) {
-    //   console.log("Error safeData");
-    //
-    //   redirect(`/courses`);
-    // }
-    //
-    // if (!courseId) return;
-    // // await prisma.courseOnUser.create({
-    // //   data: {
-    // //     userId,
-    // //     courseId,
-    // //   }
-    // // })
-    // await prisma.user.update({
-    //   where: {
-    //     id: userId,
-    //   },
-    //   data: {
-    //     ownedCourses: {
-    //       create: {
-    //         courseId: courseId.toString(),
-    //       },
-    //     },
-    //   },
-    // });
+
     revalidatePath(`/courses/${courseId}`);
     redirect(`/courses/${courseId}`);
   };
@@ -107,9 +77,11 @@ export default async function Courses() {
                       {course.creator.name}
                     </TableCell>
                     <TableCell className="font-medium">
-                      {/* <form action={joinCourse(course.id)}>
-                        <Button type="submit">Go to course</Button>
-                      </form> */}
+                      <Button>
+                        <Link href={`/courses/${course.id}`}>
+                          Course details
+                        </Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

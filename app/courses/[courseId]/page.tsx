@@ -104,7 +104,14 @@ export default async function CourseItem({
           </CardHeader>
           <CardContent>
             <CardDescription>{course.name}</CardDescription>
-            <div>{course._count?.lessons}</div>
+            <div>
+              <div>Nb lessons:</div>
+              <div>{course._count?.lessons}</div>
+            </div>
+            <div>
+              <div>Pres</div>
+              <div>{course.presentation}</div>
+            </div>
             <div>
               {!course.userFound ? (
                 <form action={handleJoinUser}>

@@ -26,16 +26,18 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <body
           className={cn(
             "h-full bg-background font-sans antialiased",
-            fontSans.variable,
+            fontSans.variable
           )}
         >
           <Providers>
             <div className="relative flex min-h-screen flex-col">
               <Header />
-              <div>
-                <ButtonPrevPage />
+              <div className="container h-16 flex-1 sm:justify-between ">
+                <div>
+                  <ButtonPrevPage />
+                </div>
+                <div>{children}</div>
               </div>
-              <div className="flex-1">{children}</div>
               <Footer />
             </div>
             <TailwindIndicator />
