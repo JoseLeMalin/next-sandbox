@@ -14,13 +14,59 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { prisma } from "@/lib/prisma";
 import { getCourses } from "./courses.query";
 import { getCourseLessons } from "./lessons.query";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { getRequiredAuthSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+
+const FormSchema = z.object({
+  courseId: z.string(),
+});
 
 export default async function Courses() {
   const courses = await getCourses();
-  const lessons = await getCourseLessons("clrgu4au50011fi9hoon6gukl");
+  const joinCourse = async (courseId: string) => {
+    "use server";
+    // const {
+    //   user: { id: userId },
+    // } = await getRequiredAuthSession();
+    // const courseId = data.get("id");
+    // const safeData = FormSchema.safeParse({
+    //   courseId,
+    // });
+    // if (!safeData.success) {
+    //   console.log("Error safeData");
+    //
+    //   redirect(`/courses`);
+    // }
+    //
+    // if (!courseId) return;
+    // // await prisma.courseOnUser.create({
+    // //   data: {
+    // //     userId,
+    // //     courseId,
+    // //   }
+    // // })
+    // await prisma.user.update({
+    //   where: {
+    //     id: userId,
+    //   },
+    //   data: {
+    //     ownedCourses: {
+    //       create: {
+    //         courseId: courseId.toString(),
+    //       },
+    //     },
+    //   },
+    // });
+    revalidatePath(`/courses/${courseId}`);
+    redirect(`/courses/${courseId}`);
+  };
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -38,11 +84,12 @@ export default async function Courses() {
                   <TableHead>Name</TableHead>
                   <TableHead>Presentation</TableHead>
                   <TableHead>Created By</TableHead>
+                  <TableHead>Join Course</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {courses?.map((course) => (
-                  <TableRow key={course.id}>
+                  <TableRow key={course.id} id={course.id}>
                     <TableCell className="font-medium">
                       <Image
                         src={course.image}
@@ -58,6 +105,11 @@ export default async function Courses() {
                     </TableCell>
                     <TableCell className="font-medium">
                       {course.creator.name}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {/* <form action={joinCourse(course.id)}>
+                        <Button type="submit">Go to course</Button>
+                      </form> */}
                     </TableCell>
                   </TableRow>
                 ))}
