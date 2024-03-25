@@ -7,7 +7,7 @@ export const getCourse = async ({
   courseId: string;
   userId: string;
 }) => {
-  const courses = await prisma.course.findUnique({
+  const course = await prisma.course.findUnique({
     where: {
       id: courseId,
     },
@@ -17,6 +17,8 @@ export const getCourse = async ({
       name: true,
       presentation: true,
       lessons: true,
+      createdAt: true,
+      creatorId: true,
       users: {
         where: {
           userId: userId,
@@ -34,11 +36,11 @@ export const getCourse = async ({
     },
   });
 
-  const userFound = courses?.users.find(
-    (courseItem) => courseItem.userId === userId
+  const userFound = course?.users.find(
+    (courseItem) => courseItem.userId === userId,
   );
   return {
-    ...courses,
+    course: course,
     userFound,
   };
 };

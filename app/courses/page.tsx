@@ -14,29 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { prisma } from "@/lib/prisma";
 import { getCourses } from "./courses.query";
-import { getCourseLessons } from "./lessons.query";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { getRequiredAuthSession } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 import Link from "next/link";
-
-const FormSchema = z.object({
-  courseId: z.string(),
-});
+import { ChevronRightIcon } from "lucide-react";
 
 export default async function Courses() {
   const courses = await getCourses();
-  const joinCourse = async (courseId: string) => {
-    "use server";
-
-    revalidatePath(`/courses/${courseId}`);
-    redirect(`/courses/${courseId}`);
-  };
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -52,9 +37,9 @@ export default async function Courses() {
                 <TableRow>
                   <TableHead className="w-[70px]">Image</TableHead>
                   <TableHead>Name</TableHead>
-                  <TableHead>Presentation</TableHead>
+                  <TableHead style={{ width: "50%" }}>Presentation</TableHead>
                   <TableHead>Created By</TableHead>
-                  <TableHead>Join Course</TableHead>
+                  <TableHead>Course details</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -77,11 +62,9 @@ export default async function Courses() {
                       {course.creator.name}
                     </TableCell>
                     <TableCell className="font-medium">
-                      <Button>
-                        <Link href={`/courses/${course.id}`}>
-                          Course details
-                        </Link>
-                      </Button>
+                      <Link href={`/courses/${course.id}`}>
+                        <ChevronRightIcon className="h-4 w-4" />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -89,7 +72,6 @@ export default async function Courses() {
             </Table>
           </CardContent>
         </Card>
-        {/* <CourseDetails lessons={lessons}/> */}
       </div>
     </>
   );

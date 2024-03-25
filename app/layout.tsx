@@ -6,10 +6,14 @@ import { SiteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { Providers } from "./Providers";
 import "./globals.css";
 import { ButtonPrevPage } from "@/components/Button-Prev-Page";
+
+type RootLayout = {
+  modal?: ReactNode;
+} & PropsWithChildren;
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -18,7 +22,7 @@ export const metadata: Metadata = {
   description: SiteConfig.description,
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default function RootLayout({ modal, children }: RootLayout) {
   return (
     <>
       <html lang="en" className="h-full" suppressHydrationWarning>
@@ -26,7 +30,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <body
           className={cn(
             "h-full bg-background font-sans antialiased",
-            fontSans.variable
+            fontSans.variable,
           )}
         >
           <Providers>
@@ -41,6 +45,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <Footer />
             </div>
             <TailwindIndicator />
+            <div>{modal}</div>
           </Providers>
         </body>
       </html>

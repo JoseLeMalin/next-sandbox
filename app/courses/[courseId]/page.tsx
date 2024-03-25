@@ -5,30 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { getRequiredAuthSession } from "@/lib/auth";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCourse } from "./course.query";
-import { Button, buttonVariants } from "@/components/ui/button";
-import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
-import { ChevronRightIcon } from "lucide-react";
-import { removeUserFromCourse } from "@/actions/courses/actions";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -45,19 +26,22 @@ export default async function CourseItem({
   };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  if (!params?.courseId) redirect("/courses");
   const session = await getRequiredAuthSession();
   const userId = session.user.id;
-  const page = Number(searchParams.page ?? 1);
-  const course = await getCourse({
+  const page = Number(searchParams?.page ?? 1);
+
+  const { course, userFound } = await getCourse({
     courseId: params.courseId,
     userId,
   });
 
-  if (!course.id) {
+  if (!course?.id) {
     console.log("No courses found. Redirected to root");
     redirect("/courses");
     // return <p>Error...</p>;
   }
+
   console.log("course._count?.users: ", course._count?.users);
 
   const handleJoinUser = async () => {
@@ -113,7 +97,7 @@ export default async function CourseItem({
               <div>{course.presentation}</div>
             </div>
             <div>
-              {!course.userFound ? (
+              {!userFound ? (
                 <form action={handleJoinUser}>
                   <Button type="submit">Join Course</Button>
                 </form>
