@@ -9,7 +9,6 @@ export default async function CoursePage({
 }: {
   params: { courseId: string };
 }) {
-  console.log("Do we reach here?:Page de la modale ", courseId);
   const session = await getAuthSession();
   if (!session?.user.id) return;
 

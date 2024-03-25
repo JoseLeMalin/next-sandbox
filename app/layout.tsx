@@ -6,10 +6,11 @@ import { SiteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode, Suspense } from "react";
 import { Providers } from "./Providers";
 import "./globals.css";
 import { ButtonPrevPage } from "@/components/Button-Prev-Page";
+import CoursesLoading from "./loading";
 
 type RootLayout = {
   modal?: ReactNode;
@@ -36,13 +37,15 @@ export default function RootLayout({ modal, children }: RootLayout) {
           <Providers>
             <div className="relative flex min-h-screen flex-col">
               <Header />
-              <div className="container h-16 flex-1 sm:justify-between ">
-                <div>
-                  <ButtonPrevPage />
+              <Suspense fallback={CoursesLoading()}>
+                <div className="container h-16 flex-1 sm:justify-between ">
+                  <div className="back-btn-container">
+                    <ButtonPrevPage />
+                  </div>
+                  <div>{children}</div>
                 </div>
-                <div>{children}</div>
-              </div>
-              <Footer />
+                <Footer />
+              </Suspense>
             </div>
             <TailwindIndicator />
             <div>{modal}</div>

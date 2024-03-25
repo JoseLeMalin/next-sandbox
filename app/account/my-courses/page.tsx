@@ -14,16 +14,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCourses } from "./courses.query";
 import Image from "next/image";
-import { z } from "zod";
-import Link from "next/link";
-import { ChevronRightIcon } from "lucide-react";
+import { getUserCourses } from "./my-courses.query";
+import { getAuthSession } from "@/lib/auth";
+import CoursesLoading from "../../courses/loading";
 import { Suspense } from "react";
-import CoursesLoading from "./loading";
+import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
 
-export default async function Courses() {
-  const courses = await getCourses();
+export default async function MyCourses() {
+  const session = await getAuthSession();
+  if (!session?.user.id) return;
+  const userId = session.user.id;
+
+  const courses = await getUserCourses(userId);
+
   return (
     <>
       <Suspense fallback={CoursesLoading()}>

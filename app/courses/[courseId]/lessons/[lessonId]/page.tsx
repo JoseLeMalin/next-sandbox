@@ -4,10 +4,11 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import { PropsWithChildren } from "react";
 import { getLesson } from "./lessonId.query";
 import { getAuthSession } from "@/lib/auth";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import LessonLoading from "./loading";
 
 type LessonItemType = {
   params: {
@@ -31,15 +32,17 @@ export default async function LessonItem({
   });
   if (!lesson) notFound();
   return (
-    <Card>
-      <CardHeader>Lesson {lesson.name}</CardHeader>
-      <CardDescription> {lesson.id}</CardDescription>
-      <CardContent className="main-container">
-        <div className="left-container">
-          Created At {lesson.createdAt.toString()}
-        </div>
-        <div className="right-container">Content: {lesson.content}</div>
-      </CardContent>
-    </Card>
+    <Suspense fallback={LessonLoading()}>
+      <Card>
+        <CardHeader>Lesson {lesson.name}</CardHeader>
+        <CardDescription> {lesson.id}</CardDescription>
+        <CardContent className="main-container">
+          <div className="left-container">
+            Created At {lesson.createdAt.toString()}
+          </div>
+          <div className="right-container">Content: {lesson.content}</div>
+        </CardContent>
+      </Card>
+    </Suspense>
   );
 }

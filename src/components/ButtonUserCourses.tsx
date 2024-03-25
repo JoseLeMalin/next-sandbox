@@ -18,7 +18,7 @@ export const ButtonUserCourses = () => {
   }
   const router = useRouter();
   const handleOnClick = () => {
-    router.push(`/courses/${session.data?.user.id}`);
+    router.push("/account/my-courses");
   };
   return (
     <TooltipProvider delayDuration={0}>

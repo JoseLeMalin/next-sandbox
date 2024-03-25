@@ -16,7 +16,6 @@ type LessonPageType = {
 export default async function LessonPage({
   params: { courseId, lessonId },
 }: LessonPageType) {
-  console.log("Do we reach here?:Page de la modale ", courseId);
   const session = await getAuthSession();
   if (!session?.user.id) return;
   const userId = session.user.id;
