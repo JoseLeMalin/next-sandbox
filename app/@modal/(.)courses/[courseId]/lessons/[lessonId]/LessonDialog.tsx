@@ -10,23 +10,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Course } from "@prisma/client";
+import { Lesson } from "@prisma/client";
 import { usePathname, useRouter } from "next/navigation";
 
 import { PropsWithChildren } from "react";
 
 type DialogDemo = {
-  params: Course;
+  params: Lesson;
 } & PropsWithChildren;
 
-export const CourseDialog = ({ params, children }: DialogDemo) => {
+export const LessonDialog = ({ params, children }: DialogDemo) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isCoursePage = pathname?.split("/").filter(Boolean).length === 2;
+  const isLessonPage = pathname?.split("/").filter(Boolean).length === 4;
   return (
     <Dialog
-      open={isCoursePage}
+      open={isLessonPage}
       onOpenChange={() => {
         router.back();
       }}
@@ -36,10 +36,7 @@ export const CourseDialog = ({ params, children }: DialogDemo) => {
       </DialogTrigger> */}
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when youre done.
-          </DialogDescription>
+          <DialogTitle>Lesson {params.name}</DialogTitle>
         </DialogHeader>
         {children}
         <DialogFooter>

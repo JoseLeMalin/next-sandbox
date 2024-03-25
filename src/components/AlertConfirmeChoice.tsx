@@ -57,7 +57,7 @@ export default function AlertDialogConfirmChoice({
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <Link href={"/account"}>
+              <Link href={"/account"} scroll={false}>
                 <Button>Account</Button>
               </Link>
             </DropdownMenuItem>

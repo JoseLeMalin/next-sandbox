@@ -22,16 +22,20 @@ export const Footer = () => {
             </Typography>
           </div>
           <div className="flex flex-col items-end gap-2 text-sm text-muted-foreground">
-            <Link className="hover:underline" href="/legal/privacy">
+            <Link
+              className="hover:underline"
+              href="/legal/privacy"
+              scroll={false}
+            >
               Privacy
             </Link>
-            <Link className="hover:underline" href="/legal/cgv">
+            <Link className="hover:underline" href="/legal/cgv" scroll={false}>
               CGV
             </Link>
-            <Link className="hover:underline" href="/courses">
+            <Link className="hover:underline" href="/courses" scroll={false}>
               Courses
             </Link>
-            <Link className="hover:underline" href="/admin">
+            <Link className="hover:underline" href="/admin" scroll={false}>
               Admin
             </Link>
           </div>

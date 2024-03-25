@@ -26,6 +26,7 @@ export default function BreadCrumbAdmin({ children }: PropsWithChildren) {
                     <Link
                       href={`/${pathname.slice(0, index + 1).join("/")}`}
                       className="block text-xs text-muted-foreground transition hover:text-foreground"
+                      scroll={false}
                     >
                       {pathnameItem}
                     </Link>

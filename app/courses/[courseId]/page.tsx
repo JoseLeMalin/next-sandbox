@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import Link from "next/link";
 
 const FormSchema = z.object({
   courseId: z.string(),
@@ -76,36 +77,58 @@ export default async function CourseItem({
     });
     if (!courseOnUser) return;
 
-    revalidatePath(`/courses/${course.id}`);
-    redirect(`/courses/${course.id}`);
+    // revalidatePath(`/courses/${course.id}`);
+    // redirect(`/courses/${course.id}`);
   };
   return (
     <>
-      <div className="flex flex-col gap-4 lg:flex-row">
+      <div className="flex flex-col gap-4">
         <Card>
           <CardHeader>
             <CardTitle>Course Info</CardTitle>
+            <CardDescription className="flex-12">{course.name}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <CardDescription>{course.name}</CardDescription>
-            <div>
-              <div>Nb lessons:</div>
-              <div>{course._count?.lessons}</div>
+          <CardContent className="main-container">
+            <div className="left-container">
+              <div>
+                <div>Nb lessons:</div>
+                <div>{course._count?.lessons}</div>
+              </div>
+              <div className="flex-8">
+                <div>Pres</div>
+                <div>{course.presentation}</div>
+              </div>
+              <div>
+                {!userFound ? (
+                  <form action={handleJoinUser}>
+                    <Button type="submit">Join Course</Button>
+                  </form>
+                ) : (
+                  <form action={handleLeaveCourse}>
+                    <Button type="submit">Leave course</Button>
+                  </form>
+                )}
+              </div>
             </div>
-            <div>
-              <div>Pres</div>
-              <div>{course.presentation}</div>
-            </div>
-            <div>
-              {!userFound ? (
-                <form action={handleJoinUser}>
-                  <Button type="submit">Join Course</Button>
-                </form>
-              ) : (
-                <form action={handleLeaveCourse}>
-                  <Button type="submit">Leave course</Button>
-                </form>
-              )}
+            <div className="right-container">
+              <div>Lessons:</div>
+              {course?.lessons.map((lessonItem, index) => {
+                return (
+                  <div key={`${lessonItem.id}-${index}`}>
+                    <div>{lessonItem.name}</div>
+                    <div>
+                      <Button>
+                        <Link
+                          href={`/courses/${course.id}/lessons/${lessonItem.id}`}
+                          scroll={false}
+                        >
+                          Lesson details
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>

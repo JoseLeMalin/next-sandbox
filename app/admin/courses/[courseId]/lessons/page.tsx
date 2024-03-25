@@ -69,7 +69,7 @@ export default async function CourseLessonsPage({
               <TableRow key={lesson.name}>
                 <TableCell className="font-medium">{lesson.content}</TableCell>
                 <TableCell className="font-medium">
-                  <Link href={`/admin/courses/${lesson.id}`}>
+                  <Link href={`/admin/courses/${lesson.id}`} scroll={false}>
                     {lesson.name}
                   </Link>
                 </TableCell>
@@ -82,7 +82,10 @@ export default async function CourseLessonsPage({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuItem>
-                        <Link href={`/admin/lessons/${lesson.id}/edit`}>
+                        <Link
+                          href={`/admin/lessons/${lesson.id}/edit`}
+                          scroll={false}
+                        >
                           Edit
                         </Link>
                       </DropdownMenuItem>

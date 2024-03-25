@@ -19,7 +19,9 @@ export default function Admin() {
             <CardDescription>{`Ici c'est la page de l'Admin`}</CardDescription>
             <div>
               {/*  <Link href={"/admin/courses"}>Courses</Link> */}
-              <Link href={"/admin/courses"}>Courses</Link>
+              <Link href={"/admin/courses"} scroll={false}>
+                Courses
+              </Link>
             </div>
           </CardContent>
         </CardHeader>

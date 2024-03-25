@@ -50,7 +50,9 @@ export async function CoursesList({ children }: CoursesList) {
                 />
               </TableCell>
               <TableCell className="font-medium">
-                <Link href={`/admin/courses/${course.id}`}>{course.name}</Link>
+                <Link href={`/admin/courses/${course.id}`} scroll={false}>
+                  {course.name}
+                </Link>
               </TableCell>
             </TableRow>
           ))}

@@ -82,7 +82,9 @@ export default async function CourseItem({
                     </TableCell>
                     <TableCell className="font-medium">{user.email}</TableCell>
                     <TableCell className="font-medium">
-                      <Link href={`/admin/courses/${user.id}`}>Aktive</Link>
+                      <Link href={`/admin/courses/${user.id}`} scroll={false}>
+                        Aktive
+                      </Link>
                     </TableCell>
                     <TableCell className="font-medium">Btn actions</TableCell>
                   </TableRow>
@@ -105,6 +107,7 @@ export default async function CourseItem({
                 className={buttonVariants({
                   variant: "outline",
                 })}
+                scroll={false}
               >
                 Edit
               </Link>
@@ -115,6 +118,7 @@ export default async function CourseItem({
                 className={buttonVariants({
                   variant: "outline",
                 })}
+                scroll={false}
               >
                 Edit lessons
               </Link>

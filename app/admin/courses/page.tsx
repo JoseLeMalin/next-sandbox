@@ -16,7 +16,9 @@ export default async function Courses() {
   return (
     <>
       <Button>
-        <Link href={"/admin/courses/create"}>Create new Course</Link>
+        <Link href={"/admin/courses/create"} scroll={false}>
+          Create new Course
+        </Link>
       </Button>
       <Card>
         <CardHeader>

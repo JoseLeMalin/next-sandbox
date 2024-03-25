@@ -62,7 +62,7 @@ export default async function Courses() {
                       {course.creator.name}
                     </TableCell>
                     <TableCell className="font-medium">
-                      <Link href={`/courses/${course.id}`}>
+                      <Link href={`/courses/${course.id}`} scroll={false}>
                         <ChevronRightIcon className="h-4 w-4" />
                       </Link>
                     </TableCell>

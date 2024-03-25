@@ -68,7 +68,7 @@ model Lesson {
   state     LessonState    @default(HIDDEN)
   createdAt DateTime       @default(now())
   courseId  String
-  creatorId String         
+  creatorId String         @default("clrgukr5y0000hxwyw1grq5r3")
   course    Course         @relation(fields: [courseId], references: [id])
   creator   User           @relation(fields: [creatorId], references: [id])
   users     LessonOnUser[]
